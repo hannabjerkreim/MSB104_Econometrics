@@ -1,0 +1,64 @@
+---
+title: "inference"
+format: html
+editor: visual
+---
+
+# Inference + OLS Asymptotics & Furter Issues
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(wooldridge)
+library(knitr)
+library(broom)
+```
+
+```{r}
+campus <- wooldridge::campus
+```
+
+```{r}
+campus %>%
+mutate(crime = round(crime/enroll*1000, 2),
+police = round(police/enroll*1000, 2)) %>%
+filter(police < 10) %>% # remove outlier
+select(crime, police)
+
+lm(crime ~ police, data = campus) %>% tidy()%>% kable(., digits=2)
+```
+
+```{r}
+reg2 <- lm(log(crime) ~ police, campus )
+```
+
+```{r}
+reg2 |>
+  summary()
+```
+
+```{r}
+reg3 <- lm(log(crime) ~ log(police), campus)
+```
+
+```{r}
+reg3 |>
+  summary()
+```
+
+log(crime) = 4.093 + 0.06 police R\^2 = 0.4272
+
+log(crime) = 2.064 + 1.176 log(police) R\^2 = 0.471
+
+The log log model is the best.
+
+**Quadratic functions**
+
+```{r}
+reg4 <- lm(crime ~ police + I (crime^2), campus)
+```
+
+```{r}
+reg4 |>
+  summary()
+```

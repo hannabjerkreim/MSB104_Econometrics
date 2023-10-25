@@ -1,0 +1,34 @@
+---
+title: "simple-regression"
+format: html
+editor: visual
+---
+
+# Simple Regression
+
+```{r}
+#Gen Data1
+df_earn <- tibble(x = sample(8:20, 100, replace = T),
+                  y = -14 + 2.5*x + rnorm(100, 0, 5)) %>% 
+  filter(y > 5)
+df_earn %>%
+  ggplot() +
+  xlim(0, 20) +
+  geom_point(aes(x = x, y = y), color = "darkslategray") +
+  xlab("Years of Education") + ylab("Hourly Earnings")
+```
+
+```{r}
+# Estimates
+lm_earn <- lm(x ~ y, data = df_earn)
+# Save coefficients
+b0_earn <- lm_earn$coefficients[1]
+b1_earn <- lm_earn$coefficients[2]
+
+df_earn %>%
+  ggplot() +
+  xlim(0, 20) +
+  geom_point(aes(x = x, y = y), color = "darkslategray") +
+  geom_abline(intercept = b0_earn, slope = b1_earn, color = hvl_blue, size, 
+  theme_simple + xlab("Years of Education") + ylab("Hourly Earnings")
+```

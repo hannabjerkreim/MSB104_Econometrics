@@ -1,0 +1,31 @@
+---
+title: "multiple_regression"
+format: html
+editor: visual
+---
+
+# Multiple Regression
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(wooldridge)
+library(huxtable)
+data(wage2)
+```
+
+```{r}
+#Estimates4
+lm.4 = lm(log(wage) ~ educ , data = wage2)
+lm.5 = lm(IQ ~ educ, data = wage2)
+lm.6 = lm(log(wage) ~ educ + IQ, data = wage2)
+#Gen Table
+huxreg(
+list("Model 1" = lm.4, "Model 2" = lm.5, "Model 3" = lm.6),
+statistics = c(N = "nobs", R2 = "r.squared"),
+coefs = c(educ. = "educ","IQ", const. = "(Intercept)"),
+note = "Note: {stars} T statistics in brackets."
+)
+```
+
+Bias = 0.060 - 0.039 = 0.021
